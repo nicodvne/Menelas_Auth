@@ -1,11 +1,5 @@
-'use strict';
-const express = require('express');
+import express from 'express'
 
-module.exports = class MainServices {
-    constructor () {
-    }
-
-    sayWelcome() {
-        return {"message": "Welcome everyone"};
-    }
+export const sayHello = () => {
+    return {"message": "Welcome everyone"};
 }

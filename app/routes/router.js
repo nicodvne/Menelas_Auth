@@ -1,9 +1,8 @@
-const express = require('express');
-const router = express.Router();
+import express from 'express'
+const router = express.Router()
 
-const mainControllerObj = require("../controllers/mainController.js");
-const mainController = new mainControllerObj;
+import {welcomeAction} from '../controllers/mainController.js'
 
-router.get('/', (req, res) => mainController.WelcomePage(req, res));
+router.get('/', (_, res) => welcomeAction(_, res));
 
-module.exports = router;
+export default router

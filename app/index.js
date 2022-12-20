@@ -1,16 +1,16 @@
-const express = require('express');
+import express from 'express'
+import dotenv from 'dotenv'
+import router from './routes/router.js'
+import { setupMongoConnect } from './services/mongodbManager.js';
+
 const app = express();
 
-app.use(express.json());
-app.use(express.urlencoded({extended:false}));
+dotenv.config();
+app.use(router);
 
-app.get('/', (req, res)=>{
-    res.send('Welcome on template main page')
-});
+setupMongoConnect();
 
-const appRouter = require('./routes/router.js');
-
-const port = parseInt(process.env.PORT) || 80;
+const port = parseInt(process.env.PORT) || 8090;
 app.listen(port, () => {
     console.log(`server started on ${port}`)
 });

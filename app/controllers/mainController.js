@@ -1,13 +1,5 @@
-'use strict';
+import {sayHello} from '../services/mainServices.js'
 
-const mainServicesClass = require("../services/mainServices.js");
-const mainService = new mainServicesClass();
-
-module.exports = class MainController {
-    constructor() {}
-
-    WelcomePage(req, res) {
-        return res.status(200).json(mainService.sayWelcome());
-    }
-
+export const welcomeAction = (_, res) => {
+    return res.status(200).json(sayHello())
 }
