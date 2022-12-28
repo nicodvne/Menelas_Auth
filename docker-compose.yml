@@ -12,6 +12,11 @@ services:
     restart: always
     volumes:
       - ./mongodb/mongo-init.js:/docker-entrypoint-initdb.d/mongo-init.js:ro
+    healthcheck:
+      test: echo 'db.runCommand("ping").ok'
+      interval: 10s
+      timeout: 10s
+      retries: 5
     networks:
       - net-menelas-auth
 
@@ -27,6 +32,19 @@ services:
       - mongodb
     volumes:
       - ./app:/usr/src/app
+    networks:
+      - net-menelas-auth
+  
+  mongoku:
+    image: huggingface/mongoku
+    restart: always
+    ports:
+      - 3100:3100
+    depends_on:
+      mongodb:
+        condition: service_healthy
+    environment:
+      - MONGOKU_DEFAULT_HOST=zyzzAdmin:zyzzAdmin@mongodb
     networks:
       - net-menelas-auth
 
