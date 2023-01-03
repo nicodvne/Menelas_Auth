@@ -10,6 +10,8 @@ const __dirname = dirname(__filename)
 
 import {welcomeAction} from '../controllers/mainController.js'
 
+import jwt from 'jsonwebtoken'
+
 router.get('/', (_, res) => welcomeAction(_, res));
 
 router.post(
@@ -37,9 +39,10 @@ router.post('/login', (req, res, next) => {
       req.login(user, {session: false}, async (error) => {
         if (error) return next(error);
 
-        const body = { id: user._id, email: user.email}
+        const body = { _id: user._id, email: user.email}
+        const token = jwt.sign({ user : body }, 'mot_de_passe');
 
-        res.json(body);
+        res.json({token});
       })
 
     } catch (error) {
@@ -47,6 +50,17 @@ router.post('/login', (req, res, next) => {
     }
   })(req, res, next)
 });
+
+
+router.get(
+  '/login_check',
+  passport.authenticate('jwt', {session: false}),
+  (_, res) => {
+    return res.status(200).json({
+      'message': "C'est ok gros"
+    });
+  }
+)
 
 
 export default router

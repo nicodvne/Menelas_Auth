@@ -1,6 +1,7 @@
 import express from 'express'
 import dotenv from 'dotenv'
 import router from './routes/router.js'
+
 import { setupMongoConnect } from './services/mongodbManager.js';
 import './auth/auth.js';
 
@@ -10,6 +11,7 @@ app.use(express.json());
 
 
 dotenv.config();
+
 app.use(router);
 
 setupMongoConnect();
