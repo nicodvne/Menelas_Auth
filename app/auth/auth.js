@@ -1,6 +1,7 @@
 import passport from 'passport';
 import { Strategy } from 'passport-local';
 import JWT from 'passport-jwt';
+import express from 'express'
 
 
 
@@ -64,7 +65,7 @@ passport.use(
 passport.use(
     new JWTStrategy(
         {
-        secretOrKey: 'mot_de_passe',
+        secretOrKey: 'thisIsZyzzBro',
         jwtFromRequest: ExtractJwt.fromUrlQueryParameter('token')
         },
         async (token, done) => {
