@@ -74,7 +74,8 @@ passport.use(
             try {
                 return done(null, token.user);
             } catch (error) {
-                done(error);
+                console.log(error);
+                return done(error);
             }
         }
     )

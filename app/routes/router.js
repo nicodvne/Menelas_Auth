@@ -55,7 +55,7 @@ router.get(
   '/login_check',
   passport.authenticate('jwt', {session: false}),
   (_, res) => {
-    return res.status(200);
+    return res.status(200).json({'message': 'ok'});
   }
 )
 
