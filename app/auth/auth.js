@@ -71,7 +71,6 @@ passport.use(
         jwtFromRequest: ExtractJwt.fromUrlQueryParameter('token')
         },
         async (token, done) => {
-            console.log(token);
             try {
                 return done(null, token.user);
             } catch (error) {
