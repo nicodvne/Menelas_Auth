@@ -42,6 +42,8 @@ passport.use(
             try {
                 const user = await UserModel.findOne({ email });
 
+                console.log(user);
+
                 if (!user) {
                     return done(null, false, {'message': "Utilisateur non trouvé"});
                 }
@@ -65,7 +67,7 @@ passport.use(
 passport.use(
     new JWTStrategy(
         {
-        secretOrKey: 'thisIsZyzzBro',
+        secretOrKey: process.env.JSON_PASS,
         jwtFromRequest: ExtractJwt.fromUrlQueryParameter('token')
         },
         async (token, done) => {

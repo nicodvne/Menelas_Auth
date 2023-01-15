@@ -28,6 +28,7 @@ services:
       - mongodb
     environment:
       - MONGODB=mongodb://zyzzAdmin:zyzzAdmin@mongodb
+      - JSON_PASS=thisiszyzz
     links:
       - mongodb
     volumes:

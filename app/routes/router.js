@@ -1,4 +1,4 @@
-import express from 'express'
+import express, { json } from 'express'
 const router = express.Router()
 import passport from '../auth/auth.js';
 
@@ -14,17 +14,16 @@ import jwt from 'jsonwebtoken'
 
 router.get('/', (_, res) => welcomeAction(_, res));
 
-router.post(
-    '/signup',
-    passport.authenticate('register', {'session': false}), 
-      async (req, res, next) => { 
-        res.json(
-          {
-            message: 'Sign up ok',
-            user: req.user
-          }
-    )}
-);
+router.post('/signup', (req, res, next) => {
+  passport.authenticate('register', (err, user, info) => {
+      if (err || !user) {
+        return res.status(404).send({ 'message': 'Impossible de créer un compte' });
+      }
+
+      return res.status(200).send({ message: 'Inscription réussie !' });
+      
+  })(req, res, next);
+});
 
 
 router.post('/login', (req, res, next) => {
@@ -40,7 +39,7 @@ router.post('/login', (req, res, next) => {
         if (error) return next(error);
 
         const body = { _id: user._id, email: user.email}
-        const token = jwt.sign({ user : body }, 'thisIsZyzzBro');
+        const token = jwt.sign({ user : body }, process.env.JSON_PASS);
 
         res.json({token});
       })
