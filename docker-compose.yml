@@ -1,51 +1,15 @@
 version: '3.8'
 
 services:
-
-  mongodb:
-    image: mongo
-    environment:
-      - MONGO_INITDB_ROOT_USERNAME=zyzzAdmin
-      - MONGO_INITDB_ROOT_PASSWORD=zyzzAdmin
-    ports:
-      - "27017:27017"
-    restart: always
-    volumes:
-      - ./mongodb/mongo-init.js:/docker-entrypoint-initdb.d/mongo-init.js:ro
-    healthcheck:
-      test: echo 'db.runCommand("ping").ok'
-      interval: 10s
-      timeout: 10s
-      retries: 5
-    networks:
-      - net-menelas-auth
-
   express_app:
     build: ./app
     ports:
       - 8090:8090
-    depends_on:
-      - mongodb
     environment:
-      - MONGODB=mongodb://zyzzAdmin:zyzzAdmin@mongodb
+      - MONGODB=mongodb+srv://menelas_auth:menelas_auth_password@cluster0.sm9boyv.mongodb.net/?retryWrites=true&w=majority
       - JSON_PASS=thisiszyzz
-    links:
-      - mongodb
     volumes:
       - ./app:/usr/src/app
-    networks:
-      - net-menelas-auth
-  
-  mongoku:
-    image: huggingface/mongoku
-    restart: always
-    ports:
-      - 3100:3100
-    depends_on:
-      mongodb:
-        condition: service_healthy
-    environment:
-      - MONGOKU_DEFAULT_HOST=zyzzAdmin:zyzzAdmin@mongodb
     networks:
       - net-menelas-auth
 
