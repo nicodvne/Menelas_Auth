@@ -3,6 +3,7 @@ version: '3.8'
 services:
   express_app:
     build: ./app
+    restart: always
     ports:
       - 8090:8090
     environment:
