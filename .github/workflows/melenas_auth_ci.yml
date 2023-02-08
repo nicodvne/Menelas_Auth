@@ -35,8 +35,12 @@ jobs:
           credentials_json: '${{ secrets.CREDENTIALS_JSON }}'
       
       - run: |
-            gcloud auth configure-docker
+            gcloud auth configure-docker europe-southwest1-docker.pkg.dev
 
       - name: Build
         run: |
           docker build -t $MENELAS_AUTH_IMG_TAG app/
+
+      - name: Push on registry
+        run: | 
+          docker push $MENELAS_AUTH_IMG_TAG
