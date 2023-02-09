@@ -23,7 +23,7 @@ jobs:
       - name: Install gcloud on workflow runner
         uses: actions-hub/gcloud@master
         env:
-          PROJECT_ID: menelas
+          PROJECT_ID: ${{ secrets.GCP_PROJECT_ID }}
           APPLICATION_CREDENTIALS: '${{ secrets.CREDENTIALS_JSON }}'
         with:
           args: info
@@ -44,3 +44,13 @@ jobs:
       - name: Push on registry
         run: | 
           docker push $MENELAS_AUTH_IMG_TAG
+      
+      - name: Deploy On Cloud run 
+        run: |
+          gcloud run services update menelas-auth \
+          --image $MENELAS_AUTH_IMG_TAG \
+          --region europe-southwest1 \
+          --port 8090 \
+          --ingress all \
+          --max-instances 2 \
+          --set-env-vars=MONGO_ROOT_USER=${{ secrets.MONGO_ROOT_USER }},JSON_PASS=${{ secrets.JSON_PASS }},MONGO_ROOT_PASSWORD=${{ secrets.MONGO_ROOT_PASSWORD }},MONGODB=${{ secrets.MONGO_DB_URL }}
