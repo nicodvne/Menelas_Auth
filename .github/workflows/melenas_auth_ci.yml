@@ -6,7 +6,7 @@ env:
 on:
   push:
     branches:
-      - addGcloudCli
+      - master
 
 jobs:
   build-and-push-on-gcp-registry:
